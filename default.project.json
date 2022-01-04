@@ -1,0 +1,48 @@
+{
+  "name": "GAME_NAME_HERE",
+  "tree": {
+    "$className": "DataModel",
+
+    "ReplicatedStorage": {
+        "$className": "ReplicatedStorage",
+        "src": {
+          "$path": "src/shared"
+        },
+        "Packages": {
+          "$path": "Packages"
+        }
+    },
+
+    "ServerScriptService": {
+      "$className": "ServerScriptService",
+      "src": {
+        "$path": "src/server"
+      }
+    },
+
+    "StarterPlayer": {
+      "$className": "StarterPlayer",
+      
+      "StarterPlayerScripts": {
+        "$className": "StarterPlayerScripts",
+        "src": {
+          "$path": "src/client"
+        }
+      }
+    },
+
+    "ServerStorage": {
+      "$className": "ServerStorage",
+      "src": {
+        "$path": "src/unreplicated"
+      }
+    },
+
+    "ReplicatedFirst": {
+      "$className": "ReplicatedFirst",
+      "src": {
+        "$path": "src/preload"
+      }
+    }
+  }
+}
