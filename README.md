@@ -1,3 +1,3 @@
-# rblx-template
+# rblx-fractal
 
-Template used for Rojo roblox games. Contains Foreman and Wally.
+Fractal rendering demo in Roblox
