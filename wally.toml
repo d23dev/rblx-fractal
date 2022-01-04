@@ -6,4 +6,5 @@ realm = "shared"
 
 [dependencies]
 Knit = "sleitnick/knit@^1.2"
+roact = "roblox/roact@1.4.2"
 # cmdr = "evaera/cmdr@^1.8"
