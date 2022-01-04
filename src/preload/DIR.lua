@@ -2,7 +2,7 @@
 --[[
     Easy access to directories in the game.
     Usage example:
-        local DIR = require(ReplicatedFirst.DIR)
+        local DIR = require(game.ReplicatedFirst.DIR)
         local Knit = require(DIR.packages.Knit)
         ...
 ]]
