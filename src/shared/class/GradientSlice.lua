@@ -52,7 +52,8 @@ end
 function GradientSlice:_update ()
     local colors: {Color3} = {}
     for i, color in pairs(self.ColorArray) do
-        colors[i] = ColorSequenceKeypoint.new((i - 1) / #self.ColorArray, color)
+        local t = ((i - 1) / (#self.ColorArray - 1))
+        colors[i] = ColorSequenceKeypoint.new(t, color)
     end
     self.UIGradient.Color = ColorSequence.new(colors)
 end
