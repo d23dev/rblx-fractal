@@ -1,7 +1,7 @@
 local ComplexNumber = {}
 ComplexNumber.__index = ComplexNumber
 
-type ComplexNumber = {
+export type ComplexNumber = {
     Real: number;
     Imaginary: number;
 }
