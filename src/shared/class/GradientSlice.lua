@@ -71,3 +71,5 @@ function GradientSlice:SetColors (colors: {Color3})
     self.ColorArray = colors
     self:_update()
 end
+
+return GradientSlice
