@@ -1,0 +1,1 @@
+script.Parent.DIR.Parent = script.Parent.Parent
