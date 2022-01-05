@@ -14,10 +14,10 @@ function ComplexNumber.new (r: number?, i: number?)
 end
 
 function ComplexNumber:Multiply (other: ComplexNumber)
-    return {
-        Real = self.Real * other.Real - self.Imaginary * other.Imaginary;
-        Imaginary = self.Real * other.Imaginary + self.Imaginary * other.Real;
-    }
+    return ComplexNumber.new(
+        self.Real * other.Real - self.Imaginary * other.Imaginary,
+        self.Real * other.Imaginary + self.Imaginary * other.Real
+    )
 end
 
 function ComplexNumber:Square ()
@@ -25,10 +25,10 @@ function ComplexNumber:Square ()
 end
 
 function ComplexNumber:Add (other: ComplexNumber)
-    return {
-        Real = self.Real + other.Real;
-        Imaginary = self.Imaginary + other.Imaginary;
-    }
+    return ComplexNumber.new(
+        self.Real + other.Real,
+        self.Imaginary + other.Imaginary
+    )
 end
 
 return ComplexNumber
