@@ -1,3 +1,5 @@
+local SIZE_MULTIPLIER = 2
+
 --!strict
 
 --// Name: GradientDisplay.lua
@@ -14,18 +16,19 @@ local DIR = require(game.ReplicatedFirst.DIR)
 local Fusion = require(DIR.packages.Fusion)
     local New = Fusion.New
 local GradientSlice = require(DIR.shared.class.GradientSlice)
+local Promise = require(DIR.packages.promise)
 
 local math = require(DIR.shared.lib.Math2)
 
 export type GradientDisplay = {
     Frame: Frame;
     Size: Vector2;
-    Slices: {GradientSlice};
+    PixelMatrix: {{PixelData}};
 }
 
-type SliceData = {
-    Start: Vector2;
-    Length: number;
+type PixelData = {
+    Slice: GradientSlice;
+    RelativeIndex: number;
 }
 
 function GradientDisplay.new (size: Vector2): GradientDisplay
@@ -35,28 +38,30 @@ function GradientDisplay.new (size: Vector2): GradientDisplay
     local self: GradientDisplay = setmetatable({}, GradientDisplay)
 
     self.Frame = New "Frame" {
-        Size = UDim2.fromOffset(size.X, size.Y),
+        Size = math.multUDim2(UDim2.fromOffset(size.X, size.Y), SIZE_MULTIPLIER),
     }
     self.Size = size
-    self.Slices = {}
+    self.PixelMatrix = {}
 
     local sliceData: {SliceData} = {}
 
     for y = 1, size.Y do
+        self.PixelMatrix[y] = {}
         for x = 1, size.X, 20 do
-            sliceData[#sliceData + 1] = {
-                Start = Vector2.new(x, y),
-                Length = math.min(20, size.X - x + 1),
-            }
+            local length = math.min(20, size.X - x + 1)
+            local slice = GradientSlice.new(length)
+            slice.Frame.Position = math.multUDim2(UDim2.fromOffset(x - 1, y - 1), SIZE_MULTIPLIER)
+            slice.Frame.Size = math.multUDim2(slice.Frame.Size, SIZE_MULTIPLIER)
+            slice.Frame.Parent = self.Frame
+
+            sliceData[#sliceData + 1] = slice
+            for i = x, x + length - 1 do
+                self.PixelMatrix[y][i] = {
+                    Slice = slice;
+                    RelativeIndex = i - x + 1;
+                }
+            end
         end
-    end
-
-    for i, data in pairs(sliceData) do
-        local slice = GradientSlice.new(data.Length)
-        slice.Frame.Position = UDim2.fromOffset(data.Start.X, data.Start.Y)
-        slice.Frame.Parent = self.Frame
-
-        self.Slices[i] = slice
     end
 
     return self
@@ -72,8 +77,8 @@ function GradientDisplay:SetColor (color: Color3, position: Vector2)
         "Position must be within display"
     )
 
-    local sliceIndex = math.floor(position.X / 20) + (position.Y - 1) * math.floor(self.Size.X / 20)
-    self.Slices[sliceIndex]:SetColor(color, position.X - (sliceIndex - 1) * 20)
+    local pixel = self.PixelMatrix[position.Y][position.X]
+    pixel.Slice:SetColor(color, pixel.RelativeIndex)
 end
 
 return GradientDisplay
